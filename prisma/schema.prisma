@@ -1,0 +1,246 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ServiceCategory {
+  HOTEL
+  RESTAURANT
+  HOSPITAL
+  CAB
+  BIKE_RENTAL
+}
+
+model User {
+  id                    String            @id @default(uuid())
+  name                  String?
+  email                 String            @unique
+  emailVerified         DateTime?
+  passwordHash          String
+  role                  Role              @default(USER)
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  preferences           UserPreferences?
+  accounts              Account[]
+  sessions              Session[]
+  savedPlaces           SavedPlace[]
+  searches              SearchHistory[]
+  trips                 Trip[]
+  captions              CaptionRequest[]
+  auditLogs             AuditLog[]
+
+  @@index([email])
+}
+
+model Account {
+  id                String   @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.Text
+  session_state     String?
+  createdAt         DateTime @default(now())
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  id         String   @id @default(uuid())
+  identifier String   // user email
+  tokenHash  String   @unique
+  type       String   // EMAIL_VERIFICATION | PASSWORD_RESET
+  expiresAt  DateTime
+  usedAt     DateTime?
+  createdAt  DateTime @default(now())
+
+  @@index([identifier, type])
+}
+
+model UserPreferences {
+  id                      String   @id @default(uuid())
+  userId                  String   @unique
+  interests               String[] @default([]) // history, nature, adventure, food, spirituality, shopping, wildlife, culture
+  consentPersonalization  Boolean  @default(false)
+  consentActivityHistory  Boolean  @default(false)
+  preferredLanguage       String   @default("en")
+  defaultCurrency         String   @default("INR")
+  updatedAt               DateTime @updatedAt
+
+  user                    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Destination {
+  id                 String           @id @default(uuid())
+  slug               String           @unique
+  name               String
+  hindiName          String?
+  state              String
+  country            String           @default("India")
+  heroImage          String
+  galleryImages      String[]         @default([])
+  overview           String           @db.Text
+  verifiedHistory    String           @db.Text
+  speciality         String           @db.Text
+  whyPopular         String           @db.Text
+  bestVisitingSeason String
+  entryFeeEstimate   String?
+  rating             Float            @default(4.8)
+  tags               String[]         @default([])
+  practicalInfo      Json             @default("{}") // transport, safety, timing, local tips
+  isVerified         Boolean          @default(true)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  attractions        Attraction[]
+  nearbyServices     NearbyService[]
+  savedBy            SavedPlace[]
+  trips              Trip[]
+
+  @@index([slug])
+  @@index([state])
+}
+
+model Attraction {
+  id                  String      @id @default(uuid())
+  destinationId       String
+  name                String
+  category            String      // Fort, Temple, Nature, Museum, Market, etc.
+  description         String      @db.Text
+  openingHours        String?
+  ticketPriceEstimate String?
+  isVerified          Boolean     @default(true)
+  imageUrl            String?
+  createdAt           DateTime    @default(now())
+
+  destination         Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  @@index([destinationId])
+}
+
+model NearbyService {
+  id            String          @id @default(uuid())
+  destinationId String
+  name          String
+  category      ServiceCategory
+  address       String
+  contactInfo   String?
+  rating        Float           @default(4.5)
+  isSample      Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+
+  destination   Destination     @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  @@index([destinationId, category])
+}
+
+model SavedPlace {
+  id            String      @id @default(uuid())
+  userId        String
+  destinationId String
+  notes         String?
+  createdAt     DateTime    @default(now())
+
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, destinationId])
+  @@index([userId])
+}
+
+model SearchHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  query     String
+  category  String?
+  filters   Json?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model Trip {
+  id             String      @id @default(uuid())
+  userId         String
+  destinationId  String?
+  title          String
+  durationDays   Int
+  groupType      String      // Solo, Couple, Family, Friends
+  budgetTier     String      // Budget, Moderate, Luxury
+  budgetEstimate Json?       // Breakdown: accommodation, food, transport, activities, misc
+  interests      String[]    @default([])
+  itinerary      Json        // Array of { day: number, title: string, morning: string, afternoon: string, evening: string, notes: string }
+  isAiGenerated  Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  destination    Destination? @relation(fields: [destinationId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+}
+
+model CaptionRequest {
+  id            String   @id @default(uuid())
+  userId        String?
+  fileHash      String?
+  mimeType      String
+  fileSize      Int
+  style         String
+  language      String
+  caption       String   @db.Text
+  hashtags      String[] @default([])
+  isAiGenerated Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+}
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  userId        String?
+  action        String
+  ipAddressHash String?
+  userAgent     String?
+  metadata      Json?
+  createdAt     DateTime @default(now())
+
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, action])
+  @@index([createdAt])
+}
