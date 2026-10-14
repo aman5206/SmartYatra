@@ -112,7 +112,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© {new Date().getFullYear()} SmartYatra. Made for mindful travelers.</p>
+          <p>© 2026 SmartYatra. Made for mindful travelers.</p>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Transparent AI & Verified Records

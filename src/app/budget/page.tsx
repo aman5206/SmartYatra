@@ -16,6 +16,7 @@ import {
   PieChart,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
+import { formatINR } from '@/lib/format';
 
 export default function BudgetCalculatorPage() {
   const { t } = useLanguage();
@@ -188,15 +189,15 @@ export default function BudgetCalculatorPage() {
             </div>
 
             <div className="text-4xl sm:text-5xl font-black tracking-tight">
-              ₹{grandTotal.toLocaleString('en-IN')}
+              ₹{formatINR(grandTotal)}
             </div>
 
             <div className="pt-3 border-t border-white/20 flex flex-wrap items-center justify-between text-xs text-white/90 gap-2">
               <div>
-                Average Per Person: <strong>₹{totalPerPerson.toLocaleString('en-IN')}</strong>
+                Average Per Person: <strong>₹{formatINR(totalPerPerson)}</strong>
               </div>
               <div>
-                Daily Per Person: <strong>₹{dailyPerPerson.toLocaleString('en-IN')} / day</strong>
+                Daily Per Person: <strong>₹{formatINR(dailyPerPerson)} / day</strong>
               </div>
             </div>
           </div>
@@ -220,12 +221,12 @@ export default function BudgetCalculatorPage() {
                       Accommodation (Hotels / Haveli)
                     </span>
                     <span className="text-slate-400 text-[11px]">
-                      ~₹{dailyAccom.toLocaleString('en-IN')} / person / night
+                      ~₹{formatINR(dailyAccom)} / person / night
                     </span>
                   </div>
                 </div>
                 <span className="font-extrabold text-sm text-slate-900 dark:text-white">
-                  ₹{totalAccom.toLocaleString('en-IN')}
+                  ₹{formatINR(totalAccom)}
                 </span>
               </div>
 
@@ -240,12 +241,12 @@ export default function BudgetCalculatorPage() {
                       Food & Regional Dining
                     </span>
                     <span className="text-slate-400 text-[11px]">
-                      Breakfast, thalis, local tea & snacks (~₹{dailyFood.toLocaleString('en-IN')}/day)
+                      Breakfast, thalis, local tea & snacks (~₹{formatINR(dailyFood)}/day)
                     </span>
                   </div>
                 </div>
                 <span className="font-extrabold text-sm text-slate-900 dark:text-white">
-                  ₹{totalFood.toLocaleString('en-IN')}
+                  ₹{formatINR(totalFood)}
                 </span>
               </div>
 
@@ -260,12 +261,12 @@ export default function BudgetCalculatorPage() {
                       Local Transport & Cabs
                     </span>
                     <span className="text-slate-400 text-[11px]">
-                      Autos, airport cabs, day sightseeing (~₹{dailyTransport.toLocaleString('en-IN')}/day)
+                      Autos, airport cabs, day sightseeing (~₹{formatINR(dailyTransport)}/day)
                     </span>
                   </div>
                 </div>
                 <span className="font-extrabold text-sm text-slate-900 dark:text-white">
-                  ₹{totalTransport.toLocaleString('en-IN')}
+                  ₹{formatINR(totalTransport)}
                 </span>
               </div>
 
@@ -285,7 +286,7 @@ export default function BudgetCalculatorPage() {
                   </div>
                 </div>
                 <span className="font-extrabold text-sm text-slate-900 dark:text-white">
-                  ₹{totalActivities.toLocaleString('en-IN')}
+                  ₹{formatINR(totalActivities)}
                 </span>
               </div>
 
@@ -305,7 +306,7 @@ export default function BudgetCalculatorPage() {
                   </div>
                 </div>
                 <span className="font-extrabold text-sm text-slate-900 dark:text-white">
-                  ₹{totalMisc.toLocaleString('en-IN')}
+                  ₹{formatINR(totalMisc)}
                 </span>
               </div>
             </div>

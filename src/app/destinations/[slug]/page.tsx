@@ -23,6 +23,7 @@ import {
   Compass,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
+import { formatINR } from '@/lib/format';
 
 export default function DestinationDetailPage() {
   const params = useParams();
@@ -356,7 +357,7 @@ export default function DestinationDetailPage() {
                 Sample Daily Travel Budget
               </span>
               <div className="text-xl font-extrabold text-slate-900 dark:text-white">
-                ₹{destination.practicalInfo.sampleDailyBudgetINR.toLocaleString('en-IN')}{' '}
+                {`₹${formatINR(destination.practicalInfo.sampleDailyBudgetINR)} `}
                 <span className="text-xs font-normal text-slate-500">/ traveler / day</span>
               </div>
               <p className="text-[10px] text-slate-400">

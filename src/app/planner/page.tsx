@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SEED_DESTINATIONS } from '@/data/seed-data';
 import { GeneratedTripPlan } from '@/lib/ai-service';
+import { formatINR } from '@/lib/format';
 import {
   Calendar,
   Sparkles,
@@ -422,7 +423,7 @@ function PlannerContent() {
                     Sample Daily Budget
                   </h4>
                   <div className="text-2xl font-black text-orange-600 dark:text-orange-400">
-                    ₹{plan.estimatedDailyBudgetINR.toLocaleString('en-IN')}{' '}
+                    {`₹${formatINR(plan.estimatedDailyBudgetINR)} `}
                     <span className="text-xs font-normal text-slate-600 dark:text-slate-400">/ day / traveler</span>
                   </div>
                   <p className="text-[11px] text-slate-500">

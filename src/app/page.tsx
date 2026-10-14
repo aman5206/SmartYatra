@@ -22,6 +22,42 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
+const CATEGORIES = [
+  { id: 'history', label: 'Royal Heritage', icon: '🏛️', count: '1,200+ Sites' },
+  { id: 'spirituality', label: 'Sacred Ghats & Temples', icon: '🪔', count: '84 Holy Ghats' },
+  { id: 'nature', label: 'Lush Hills & Backwaters', icon: '🌿', count: 'Western Ghats' },
+  { id: 'adventure', label: 'High Passes & Rafting', icon: '🏔️', count: '17,000+ ft' },
+  { id: 'food', label: 'Culinary Trails', icon: '🍛', count: 'Centuries of Flavors' },
+  { id: 'culture', label: 'Living Traditions', icon: '🎭', count: 'Folk & Festivals' },
+];
+
+const FEATURED_EXPERIENCES = [
+  {
+    title: 'Maha Ganga Aarti at Dusk',
+    location: 'Varanasi, Uttar Pradesh',
+    description: 'Witness seven priests chant Vedic hymns by the holy riverfront with multi-tiered brass lamps.',
+    badge: 'Verified Spiritual Tradition',
+    image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80',
+    slug: 'varanasi',
+  },
+  {
+    title: 'Amber Fort & Hall of Mirrors',
+    location: 'Jaipur, Rajasthan',
+    description: 'Explore the Sheesh Mahal where a single candle flame is reflected across thousands of Belgian mirrors.',
+    badge: 'UNESCO Heritage Fort',
+    image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
+    slug: 'jaipur',
+  },
+  {
+    title: 'Vembanad Lake Houseboat Cruise',
+    location: 'Alleppey, Kerala',
+    description: 'Drift past emerald paddy fields, coconut palms, and peaceful village shores in a traditional wooden craft.',
+    badge: 'Signature Backwater Eco-Tour',
+    image: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80',
+    slug: 'munnar',
+  },
+];
+
 export default function HomePage() {
   const { t, language } = useLanguage();
   const router = useRouter();
@@ -42,42 +78,6 @@ export default function HomePage() {
 
     router.push(`/explore?q=${encodeURIComponent(searchQuery.trim())}`);
   };
-
-  const categories = [
-    { id: 'history', label: 'Royal Heritage', icon: '🏛️', count: '1,200+ Sites' },
-    { id: 'spirituality', label: 'Sacred Ghats & Temples', icon: '🪔', count: '84 Holy Ghats' },
-    { id: 'nature', label: 'Lush Hills & Backwaters', icon: '🌿', count: 'Western Ghats' },
-    { id: 'adventure', label: 'High Passes & Rafting', icon: '🏔️', count: '17,000+ ft' },
-    { id: 'food', label: 'Culinary Trails', icon: '🍛', count: 'Centuries of Flavors' },
-    { id: 'culture', label: 'Living Traditions', icon: '🎭', count: 'Folk & Festivals' },
-  ];
-
-  const featuredExperiences = [
-    {
-      title: 'Maha Ganga Aarti at Dusk',
-      location: 'Varanasi, Uttar Pradesh',
-      description: 'Witness seven priests chant Vedic hymns by the holy riverfront with multi-tiered brass lamps.',
-      badge: 'Verified Spiritual Tradition',
-      image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80',
-      slug: 'varanasi',
-    },
-    {
-      title: 'Amber Fort & Hall of Mirrors',
-      location: 'Jaipur, Rajasthan',
-      description: 'Explore the Sheesh Mahal where a single candle flame is reflected across thousands of Belgian mirrors.',
-      badge: 'UNESCO Heritage Fort',
-      image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
-      slug: 'jaipur',
-    },
-    {
-      title: 'Vembanad Lake Houseboat Cruise',
-      location: 'Alleppey, Kerala',
-      description: 'Drift past emerald paddy fields, coconut palms, and peaceful village shores in a traditional wooden craft.',
-      badge: 'Signature Backwater Eco-Tour',
-      image: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80',
-      slug: 'munnar',
-    },
-  ];
 
   return (
     <div className="space-y-16 sm:space-y-24 pb-16">
@@ -240,13 +240,17 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-          {categories.map((cat) => (
+          {CATEGORIES.map((cat) => (
             <Link
               key={cat.id}
               href={`/explore?category=${cat.id}`}
               className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-orange-500 hover:shadow-md transition text-center space-y-2 group"
             >
-              <div className="text-3xl group-hover:scale-110 transition-transform">{cat.icon}</div>
+              <div className="text-3xl group-hover:scale-110 transition-transform">
+                <span role="img" aria-label={cat.label}>
+                  {cat.icon}
+                </span>
+              </div>
               <h3 className="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-200 group-hover:text-orange-600">
                 {cat.label}
               </h3>
@@ -268,7 +272,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {featuredExperiences.map((exp) => (
+          {FEATURED_EXPERIENCES.map((exp) => (
             <div
               key={exp.title}
               className="rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col"

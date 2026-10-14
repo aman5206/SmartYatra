@@ -61,6 +61,31 @@ export default function LoginPage() {
           </div>
         )}
 
+        {/* Prototype Demo Access Callout */}
+        <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-xs space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="font-bold text-amber-900 dark:text-amber-200 flex items-center gap-1.5">
+              <span>⚡ Hackathon Prototype Demo</span>
+            </span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-200/80 dark:bg-amber-900 text-amber-800 dark:text-amber-200 font-semibold">
+              No DB Required
+            </span>
+          </div>
+          <p className="text-[11px] text-amber-800/90 dark:text-amber-300/90 leading-tight">
+            Evaluate with our pre-populated traveler account (pre-loaded with saved places &amp; sample itineraries) or register a new one.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setEmail('demo@smartyatra.in');
+              setPassword('SmartYatraDemo123!');
+            }}
+            className="w-full py-1.5 px-3 rounded-lg bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 font-semibold text-xs hover:bg-amber-100/60 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
+          >
+            <span>Autofill Demo Credentials</span>
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">

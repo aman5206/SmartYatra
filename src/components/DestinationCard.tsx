@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { DestinationItem } from '@/data/seed-data';
 import { MapPin, Star, Heart, ShieldCheck, ArrowRight, Clock } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
+import { formatINR } from '@/lib/format';
 
 interface DestinationCardProps {
   destination: DestinationItem;
@@ -122,7 +123,7 @@ export function DestinationCard({ destination, initialSaved = false }: Destinati
               Daily Sample Est.
             </span>
             <span className="font-bold text-slate-900 dark:text-white">
-              ₹{destination.practicalInfo.sampleDailyBudgetINR.toLocaleString('en-IN')}{' '}
+              {`₹${formatINR(destination.practicalInfo.sampleDailyBudgetINR)} `}
               <span className="text-[10px] font-normal text-slate-500">/day</span>
             </span>
           </div>

@@ -76,9 +76,14 @@ function ExploreContent() {
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Explore Destinations
         </h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl">
-          Search places, verified historical accounts, and estimated daily travel costs across India.
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl">
+            Search places, verified historical accounts, and estimated daily travel costs across India.
+          </p>
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            Curated Sample Data • Hackathon Prototype
+          </span>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}

@@ -235,19 +235,46 @@ npm start
 
 ---
 
-## 🔍 What Works Out-of-the-Box vs What Needs External Keys
+## 🚀 Hackathon Prototype: Zero-Database Deployment (Vercel)
 
-| Feature | Without External API Keys (Default) | With Configured External Keys |
+For hackathon evaluation and live demo preview, SmartYatra is pre-configured to build and run **100% database-free** on Vercel without requiring a hosted PostgreSQL instance or credit card.
+
+### Deploying to Vercel in 3 Steps:
+
+1. **Import Repository**:
+   - Push your code to a private or public GitHub repository (see [Safe GitHub Submission Instructions](#-safe-github-submission-instructions)).
+   - In the [Vercel Dashboard](https://vercel.com/new), click **Add New Project** and select your `smartyatra` repository.
+2. **Configure Environment Variables in Vercel**:
+   - `SESSION_SECRET`: Any random 32+ character string (e.g. `c7a4e612f8b5490da3e9d1234567890a`).
+   - `GEMINI_API_KEY`: *(Optional)* Add your Gemini key if you want live AI itinerary and vision captioning; leave empty for transparent rule-based demo fallback.
+   - `DATABASE_URL`: *(Leave empty)* Omit this variable completely for zero-DB prototype mode.
+3. **Deploy**:
+   - Click **Deploy**. Vercel will run `postinstall: prisma generate` and `next build`.
+   - Your live URL (e.g. `https://smartyatra.vercel.app`) will be ready in under 60 seconds.
+
+### Pre-Seeded Demo Account:
+To evaluate protected features without manual registration:
+* **Email**: `demo@smartyatra.in`
+* **Password**: `SmartYatraDemo123!`
+* Or click the **"Autofill Demo Credentials"** button on the `/auth/login` page for instant 1-click access.
+* Pre-loaded with saved destinations (Jaipur, Varanasi), in-app search history, and a sample 3-day cultural itinerary.
+
+---
+
+## 🔍 Feature Matrix: Prototype Demo Mode vs Future Hosted Backend
+
+| Feature | Hackathon Prototype (Zero-DB / Demo Mode) | Future Hosted Production Backend |
 |---|---|---|
-| **Browsing Destinations** | Fully functional with verified history, attractions, and sample budgets. | Fully functional. |
-| **Authentication & Accounts** | Fully functional (Argon2id hashing, secure cookies, sessions, password reset simulation). | Fully functional (connect SMTP for live email delivery). |
-| **AI Trip Planner** | Operates in **[Demo / Non-AI Fallback]** mode, generating structured day-wise morning/afternoon/evening itineraries with clear demo labels. | Calls Google Gemini 2.5 Flash for live contextual itinerary generation. |
-| **Photo Caption Generator** | Generates authentic multilingual captions and hashtags using curated rule-based templates with demo labels. | Calls Gemini Vision to analyze photo contents and write contextual captions. |
-| **Budget Calculator** | Fully functional with itemized calculations across all tiers and styles. | Fully functional. |
-| **Travel Memory** | Fully functional (records in-app searches, favorites, with clear history controls). | Fully functional. |
-| **Nearby Services** | Fully functional with emergency hospital contacts and verified badges. | Fully functional. |
-| **Personalized Recommendations** | Fully functional with interest matching and DPDP consent toggles. | Fully functional. |
-| **Data Export & Deletion** | Fully functional (generates JSON download; cascading account deletion). | Fully functional. |
+| **Destination Explorer (`/explore`, `/destinations/[slug]`)** | **Active**: Curated seed dataset covering 6 verified Indian destinations (Jaipur, Varanasi, Munnar, Ladakh, Hampi, Rishikesh) with history, attractions, and sample budgets. | Distributed PostgreSQL / Prisma with global content management and user reviews. |
+| **AI Trip Planner (`/planner`)** | **Active**: Deterministic, rule-based itinerary engine tailored to budget tiers and interests, clearly labelled as `[Demo / Non-AI Fallback]`. If `GEMINI_API_KEY` is provided, live AI takes over automatically. | Multi-modal travel orchestrator, live agentic re-planning, and weather-aware itinerary re-routing. |
+| **Interactive Budget Calculator (`/budget`)** | **Active**: Full client-side calculation across accommodation, food, transit, entry tickets, and contingency reserves in INR with tier multipliers. | Live forex conversion, seasonal peak demand feeds, and group cost-splitting. |
+| **Personalized Recommendations (`/recommendations`)** | **Active**: Client-side interest affinity scoring with 100% opt-in DPDP consent toggles. | Machine learning vector embeddings matching traveler behavior with strict differential privacy. |
+| **Nearby Logistics & Services (`/services`)** | **Active**: Curated sample directory of verified emergency hospitals (e.g., SMS Hospital Jaipur, AIIMS Rishikesh), dining landmarks, taxi unions, and bike rentals. | Live Google Places / OpenStreetMap live inventory, booking availability, and verified local driver dispatch. |
+| **AI Caption Generator (`/caption-generator`)** | **Active**: Multilingual (English/Hindi) rule-based caption templates based on user style and vibe, labelled as `[Demo / Non-AI Fallback]`. Live Gemini Vision if key provided. | Multi-photo collage vision analysis, video reel voiceover scripts, and real-time social sharing. |
+| **User Authentication (`/auth/*`)** | **Active**: Argon2id password hashing, secure HTTP-only JWT cookies (`smartyatra_session`), stateless serverless JWT verification, and pre-seeded demo traveler. | Persistent PostgreSQL users, OAuth 2.0 (Google/Apple), Passkeys (WebAuthn), and SMS 2FA. |
+| **Travel Memory (`/memory`, `/dashboard`)** | **Active**: In-memory and session-backed saved destinations, sample itineraries, and in-app search history with 1-click clear controls. | Persistent PostgreSQL user travel journal with encrypted cloud sync across devices. |
+| **Data Privacy & Export (`/settings`)** | **Active**: 1-click DPDP Act JSON data export and account reset simulation. | Cryptographically signed portable GDPR/DPDP data archive and irreversible automated deletion pipelines. |
+| **Live Bookings & Dynamic Pricing** | **Intentionally Disabled**: Clearly labelled as indicative sample estimates; no fake bookings or mock checkout workflows. | Merchant payment gateway integration (Razorpay/Stripe), IRCTC train API, and verified hotel booking engines. |
 
 ---
 

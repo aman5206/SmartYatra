@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
       email: user.email,
       role: user.role,
       sessionId: 'sess_' + Math.random().toString(36).substring(2),
+      name: user.name || 'Traveler',
     });
 
     const response = NextResponse.json({
